@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 interface AuthState {
   name: string | null;
   token: string | null;
+  expiry: Date | null;
 }
 
 const links = {
@@ -16,6 +17,7 @@ export const useAuthStore = defineStore({
   state: (): AuthState => ({
     name: null,
     token: null,
+    expiry: null,
   }),
   actions: {
     async requestLogin() {
@@ -23,16 +25,18 @@ export const useAuthStore = defineStore({
     },
     logout() {
       this.$reset();
-      // Optionally, add code here to clear token from local storage or do any other necessary cleanup
     },
     handleAuthRedirect() {
-      // Check if the URL contains an access token
       const urlParams = new URLSearchParams(window.location.hash.substring(1));
       const accessToken = urlParams.get("access_token");
+      const expiresIn = urlParams.get("expires_in");
 
-      if (accessToken) {
-        // Token exists, update token in the store
+      if (accessToken && expiresIn) {
         this.token = accessToken;
+
+        const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+        this.expiry = new Date((currentTime + parseInt(expiresIn)) * 1000);
+
         return true;
       }
 
