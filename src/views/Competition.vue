@@ -22,6 +22,8 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import Button from "@/components/ui/button/Button.vue";
+import { Badge } from '@/components/ui/badge'
 
 
 const wcif: any = ref(null);
@@ -70,6 +72,10 @@ const groups = computed(() => {
     })
   });
 });
+
+const groupEdit = (stage: number, group: number) => {
+  console.log(stage, group);
+}
 </script>
 
 <template>  
@@ -93,34 +99,22 @@ const groups = computed(() => {
     </Select>
 
     <Accordion type="multiple" collapsible>
-      <AccordionItem v-for="stage of groups[selectedVenue]" :value="stage.name">
+      <AccordionItem v-for="(stage, stageIndex) of groups[selectedVenue]" :value="stage.name">
         <AccordionTrigger>
           {{stage.name}}
         </AccordionTrigger>
         <AccordionContent>
-          <div v-for="group of stage.activities">
-        <div v-for="activity of group.childActivities">
-        {{activity}}
-      </div>
-      </div>
+          <ul>
+            <li v-for="(activity, activityIndex) of stage.activities[0].childActivities" class="my-1">
+              {{activity.name}}
+              <Badge @click="() => groupEdit(stageIndex, activityIndex)" style="cursor: pointer">
+                Edit Group
+              </Badge>
+            </li>
+          </ul>
         </AccordionContent>
       </AccordionItem>
     </Accordion>
-
-    <!-- <Table class="flex w-">
-      <TableHeader>
-      <TableRow>
-      <TableHead v-for="stage of groups[selectedVenue]">
-        {{ stage.name }}
-      </TableHead>
-    </TableRow>
-  </TableHeader>
-      <TableBody>
-        <TableRow v-for="(event, index) of groups[selectedVenue][0].activities">
-          <TableCell v-for="stage of groups[selectedVenue]">{{ stage.activities[index].name }}</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table> -->
   </div>
   <div v-else><Loading /></div>
 </template>
