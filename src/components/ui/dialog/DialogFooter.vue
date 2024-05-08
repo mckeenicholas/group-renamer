@@ -2,20 +2,18 @@
 import type { HTMLAttributes } from "vue";
 import { cn } from "@/lib/utils";
 
-const props = defineProps<{
-  class?: HTMLAttributes["class"];
-}>();
+const props = defineProps<{ class?: HTMLAttributes["class"] }>();
 </script>
 
 <template>
-  <tr
+  <div
     :class="
       cn(
-        'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+        'flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-x-2',
         props.class,
       )
     "
   >
     <slot />
-  </tr>
+  </div>
 </template>

@@ -25,7 +25,7 @@ onMounted(() => {
         <div class="flex justify-center">
           <CircleUserRound class="h-16 w-16 items-center" />
         </div>
-        <h1>To use this app, you must sign in</h1>  
+        <h1>To use this app, you must sign in</h1>
         <hr class="my-2" />
         <div class="flex items-center justify-center align-middle">
           <Button @click="requestLogin">Sign in</Button>

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { type HTMLAttributes, computed } from "vue";
 import {
-  AccordionItem,
-  type AccordionItemProps,
+  DialogDescription,
+  type DialogDescriptionProps,
   useForwardProps,
 } from "radix-vue";
 import { cn } from "@/lib/utils";
 
 const props = defineProps<
-  AccordionItemProps & { class?: HTMLAttributes["class"] }
+  DialogDescriptionProps & { class?: HTMLAttributes["class"] }
 >();
 
 const delegatedProps = computed(() => {
@@ -21,7 +21,10 @@ const forwardedProps = useForwardProps(delegatedProps);
 </script>
 
 <template>
-  <AccordionItem v-bind="forwardedProps" :class="cn('border-b', props.class)">
+  <DialogDescription
+    v-bind="forwardedProps"
+    :class="cn('text-sm text-muted-foreground', props.class)"
+  >
     <slot />
-  </AccordionItem>
+  </DialogDescription>
 </template>
